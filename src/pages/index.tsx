@@ -1,9 +1,25 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import { gql, useQuery } from '@apollo/client'
+// import { Query } from "../libs/generated/graphql";
+const GET_USER = gql`
+  query users {
+    users {
+      id
+      name
+      email
+    }
+  }
+`
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const { loading, error, data } = useQuery(GET_USER)
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error : {error.message}</p>
+  console.log(data)
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
