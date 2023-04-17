@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { gql, useQuery } from '@apollo/client'
+import { User } from '@/libs/generated/graphql'
 // import { Query } from "../libs/generated/graphql";
 const GET_USER = gql`
   query users {
@@ -15,7 +16,7 @@ const GET_USER = gql`
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const { loading, error, data } = useQuery(GET_USER)
+  const { loading, error, data } = useQuery<User[]>(GET_USER)
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error : {error.message}</p>
